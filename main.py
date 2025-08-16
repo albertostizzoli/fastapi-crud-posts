@@ -46,13 +46,25 @@ def create_post(post: Post):
     return new_post
 
 # creo una funzione per modificare un post esistente
-@app.put("/posts{post_id}")
-def update_post(post_id: int, updated_post: Post): 
+@app.put("/posts/{post_id}")
+def update_post(post_id: int, updated_post: Post): # passo come parametro l'id del post da modificare
     posts = load_posts() # chiamo la funzione load_posts
+    # ciclo per modificare i dati
     for p in posts:
         if  p["id"] == post_id:
             p["title"] = updated_post.title
             p["content"] = updated_post.content
-            save_posts(posts)
+            save_posts(posts) # chiamo la funzione save_posts per salvare il dato modificato
             return p
-    raise HTTPException(status_code=404, detail="Post non trovato")
+    raise HTTPException(status_code=404, detail="Post non trovato") # errore se il post non viene trovato
+
+# creo una funzione per cancellare un post esistente
+@app.delete("/posts/{post_id}")
+def delete_post(post_id: int): # passo come parametro l'id del post da cancellare
+    posts = load_posts() # chaimo la funzione load_posts
+    for p in posts:
+        if p["id"] == post_id: # tro il post_id del post del post selezionato
+            posts.remove(p) # rimuovo il post selezionato
+            save_posts(posts) # chiamo la funzione save_posts per aggiornare i posts
+            return {"message": "Post cancellato"} # messaggio di conferma
+    raise HTTPException(status_code=404, detail="Post non trovato") #errore se il post non viene trovato

@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "title": "Vacanze",
+        "content": "Che bello andare in vacanza"
+    },
+    {
+        "id": 2,
+        "title": "Informatica",
+        "content": "Che bello programmare in Python"
+    }
+]

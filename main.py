@@ -44,3 +44,15 @@ def create_post(post: Post):
     posts.append(new_post) # aggiungo il nuovo post alla lista dei post
     save_posts(posts) # chiamo la funzione save_posts per salvare i post aggiornati
     return new_post
+
+# creo una funzione per modificare un post esistente
+@app.put("/posts{post_id}")
+def update_post(post_id: int, updated_post: Post): 
+    posts = load_posts() # chiamo la funzione load_posts
+    for p in posts:
+        if  p["id"] == post_id:
+            p["title"] = updated_post.title
+            p["content"] = updated_post.content
+            save_posts(posts)
+            return p
+    raise HTTPException(status_code=404, detail="Post non trovato")
